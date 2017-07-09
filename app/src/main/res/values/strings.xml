@@ -24,7 +24,7 @@
     <string name="description_movie_poster">Contains poster of movie</string>
 
     <!-- API Key TMDB -->
-    <string name="api_key">a570559e5330ae9ff69fa687a77b141d</string>
+    <string name="api_key">your_api_key</string>
     <string name="path_popular_movie">popular</string>
     <string name="path_top_rated_movie">top_rated</string>
 
