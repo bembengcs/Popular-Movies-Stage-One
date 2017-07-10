@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="@dimen/activity_padding"
     tools:context="com.example.android.popularmoviesstageone.DetailActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:minHeight="200dp"
+        android:minHeight="@dimen/min_height"
         android:orientation="vertical"
         android:weightSum="2">
 
@@ -21,7 +21,7 @@
             android:layout_weight="1"
             android:gravity="center|left"
             android:text="@string/movie_title_example"
-            android:textSize="20sp" />
+            android:textSize="@dimen/textSize_extra_large" />
 
         <ScrollView
             android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/synopsis_example"
-                android:textSize="14sp" />
+                android:textSize="@dimen/textSize_medium" />
         </ScrollView>
 
     </LinearLayout>
@@ -41,7 +41,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:minHeight="200dp"
+        android:minHeight="@dimen/min_height"
         android:orientation="horizontal"
         android:weightSum="5">
 
@@ -59,7 +59,7 @@
             android:layout_gravity="center"
             android:layout_weight="2"
             android:orientation="vertical"
-            android:padding="6dp">
+            android:padding="@dimen/item_padding">
 
             <TextView
                 android:id="@+id/tv_vote_average_title"
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/user_rating_example"
-                android:textSize="20sp" />
+                android:textSize="@dimen/textSize_extra_large" />
 
             <TextView
                 android:id="@+id/tv_release_date_title"
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/release_date_example"
-                android:textSize="20sp" />
+                android:textSize="@dimen/textSize_extra_large" />
 
         </LinearLayout>
 

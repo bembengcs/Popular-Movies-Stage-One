@@ -9,12 +9,12 @@ import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,15 +30,15 @@ public class MainActivity extends AppCompatActivity {
         mGridView = (GridView) findViewById(R.id.gridview);
         mGridView.setOnItemClickListener(moviePosterClickListener);
 
-        if (savedInstanceState == null){
-            getMoviesFromTMDB(getSortMethod());
+        if (savedInstanceState == null) {
+            getMoviesFromTMDB(getSortMethod(getString(R.string.path_top_rated_movie)));
         } else {
             Parcelable[] parcelable = savedInstanceState.getParcelableArray(getString(R.string.parcel_movie));
 
             if (parcelable != null) {
                 int numMovieObjects = parcelable.length;
                 Movie[] movies = new Movie[numMovieObjects];
-                for (int i = 0; i < numMovieObjects; i++){
+                for (int i = 0; i < numMovieObjects; i++) {
                     movies[i] = (Movie) parcelable[i];
                 }
                 mGridView.setAdapter(new ImageAdapter(this, movies));
@@ -53,26 +53,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        int numMovieObjects = mGridView.getCount();
+        if (numMovieObjects > 0) {
+
+            Movie[] movies = new Movie[numMovieObjects];
+            for (int i = 0; i < numMovieObjects; i++) {
+                movies[i] = (Movie) mGridView.getItemAtPosition(i);
+            }
+
+            outState.putParcelableArray(getString(R.string.parcel_movie), movies);
+        }
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
 //        Refresh
         if (id == R.id.action_refresh) {
-            getMoviesFromTMDB(getSortMethod());
+            getMoviesFromTMDB(getSortMethod(getString(R.string.path_top_rated_movie)));
             return true;
         }
 
 //        Sort by Popular Movies
-        if (id == R.string.action_popular_movies) {
+        if (id == R.id.action_popular_movies) {
             updateSharedPrefs(getString(R.string.path_popular_movie));
-            getMoviesFromTMDB(getSortMethod());
+            getMoviesFromTMDB(getSortMethod(getString(R.string.path_popular_movie)));
             return true;
         }
 
 //        Sort by Top Rated Movies
-        if (id == R.string.action_top_rated_movies) {
+        if (id == R.id.action_top_rated_movies) {
             updateSharedPrefs(getString(R.string.path_top_rated_movie));
-            getMoviesFromTMDB(getSortMethod());
+            getMoviesFromTMDB(getSortMethod(getString(R.string.path_top_rated_movie)));
             return true;
         }
 
@@ -98,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public void getMoviesFromTMDB(String sortMethod){
+    public void getMoviesFromTMDB(String sortMethod) {
         if (networkAvailable()) {
             // Key needed to get data from TMDb
             String apiKey = getString(R.string.api_key);
@@ -119,10 +136,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String getSortMethod() {
+    public String getSortMethod(String sort) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        return prefs.getString(getString(R.string.pref_sort_method_key),
-                getString(R.string.path_popular_movie));
+        return prefs.getString(getString(R.string.pref_sort_method_key), sort);
     }
 
     private void updateSharedPrefs(String sortMethod) {

@@ -2,19 +2,15 @@ package com.example.android.popularmoviesstageone;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
-import java.util.concurrent.ExecutionException;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -35,7 +31,6 @@ public class DetailActivity extends AppCompatActivity {
 
         try {
             Movie movies = intent.getParcelableExtra(getString(R.string.parcel_movie));
-//            Movie movies = (Movie) getIntent().getSerializableExtra(getString(R.string.parcel_movie));
             tvOriginalTitle.setText(movies.getOriginalTitle());
 
             Picasso.with(this)
@@ -70,8 +65,9 @@ public class DetailActivity extends AppCompatActivity {
                 releaseDate = getResources().getString(R.string.no_release_date_found);
             }
             tvReleaseDate.setText(releaseDate);
-        }catch (Exception e){
-            Log.d("ONCREATEERROR", "onCreate: "+ e.getMessage());
+        } catch (Exception e) {
+            Log.d("ONCREATEERROR", "onCreate: " + e.getMessage());
+            Log.d("ERROR", "onCreate: " + e.getLocalizedMessage());
         }
     }
 }
